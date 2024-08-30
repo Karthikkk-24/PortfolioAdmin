@@ -1,110 +1,79 @@
-import { Eye, EyeOff, LogIn } from 'lucide-react';
+import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BaseURL from '../components/BaseURL';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Login attempt with:', { email, password });
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post(`${BaseURL()}/api/users/login`, {
+                email,
+                password,
+            });
+
+            console.log(response.data);
+            if (response.status === 200) {
+                localStorage.clear();
+                console.log(response.data);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', response.data.user.username);
+                localStorage.setItem('user_id', response.data.user.uniqueId);
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-                        Sign in to your account
-                    </h2>
+        <div className="w-screen h-screen flex justify-center items-center overflow-hidden">
+            <div className="h-auto w-[30rem] flex flex-col items-center gap-6 justify-center shadow-xl rounded-2xl p-7">
+                <h2 className="text-2xl font-semibold text-center uppercase">
+                    Login
+                </h2>
+                <div className="flex flex-col gap-2 items-start justify-start w-full h-auto">
+                    <label
+                        htmlFor=""
+                        className="font-semibold text-left text-sm"
+                    >
+                        Email
+                    </label>
+                    <input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Enter Email"
+                        className="h-10 w-full pl-3 rounded-lg border-2 border-slate-100"
+                    />
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <input type="hidden" name="remember" value="true" />
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="email-address" className="sr-only">
-                                Email address
-                            </label>
-                            <input
-                                id="email-address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-800"
-                                placeholder="Email address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div className="relative">
-                            <label htmlFor="password" className="sr-only">
-                                Password
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type={showPassword ? 'text' : 'password'}
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-800"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <button
-                                type="button"
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? (
-                                    <EyeOff className="h-5 w-5 text-gray-400" />
-                                ) : (
-                                    <Eye className="h-5 w-5 text-gray-400" />
-                                )}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                                htmlFor="remember-me"
-                                className="ml-2 block text-sm text-gray-300"
-                            >
-                                Remember me
-                            </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <a
-                                href="#"
-                                className="font-medium text-blue-400 hover:text-blue-300"
-                            >
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
-                            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <LogIn className="h-5 w-5 text-blue-500 group-hover:text-blue-400" />
-                            </span>
-                            Sign in
-                        </button>
-                    </div>
-                </form>
+                <div className="flex flex-col gap-2 items-start justify-start w-full h-auto">
+                    <label
+                        htmlFor=""
+                        className="font-semibold text-left text-sm"
+                    >
+                        Password
+                    </label>
+                    <input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        placeholder="Enter Password"
+                        className="h-10 w-full pl-3 rounded-lg border-2 border-slate-100"
+                    />
+                </div>
+                <div className="flex w-full h-auto flex-col items-center justify-center gap-5">
+                    <button
+                        onClick={handleSubmit}
+                        className="bg-primary h-auto w-auto uppercase px-5 py-3 text-background rounded-lg font-semibold hover:scale-110 transition-all"
+                    >
+                        Login
+                    </button>
+                </div>
             </div>
         </div>
     );
