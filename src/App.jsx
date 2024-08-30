@@ -3,6 +3,7 @@ import './App.css';
 import PublicRoute from './components/PublicRoute';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/" element={<PublicRoute />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                     </Route>

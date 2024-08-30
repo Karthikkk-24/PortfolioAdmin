@@ -92,12 +92,16 @@ authRouter.post('/register', async (req, res) => {
 
 authRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    console.log('req.body', req.body);
 
     try {
         const user = await User.findOne({ email });
         if (!user) {
+            console.log('user not found');
             return res.status(400).json({ message: 'Invalid credentials' });
         }
+
+        // console.log('user', user);
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
