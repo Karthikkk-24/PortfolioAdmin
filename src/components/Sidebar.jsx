@@ -11,13 +11,13 @@ import SidebarItem from './SidebarItem';
 export default function Sidebar({ isOpen, isCollapsed, toggleCollapse }) {
     return (
         <aside
-            className={`bg-gray-900 text-white h-screen fixed left-0 top-0 transition-all duration-300 ease-in-out ${
+            className={`bg-gray-900 text-white h-screen transition-all duration-300 ease-in-out pl-3 ${
                 isOpen ? 'translate-x-0' : '-translate-x-full'
-            } ${isCollapsed ? 'w-16' : 'w-64'}`}
+            } ${isCollapsed ? 'w-full' : 'w-full'}`}
         >
-            <div className="p-4 flex justify-between items-center">
+            <div className="p-4 flex justify-between items-center pl-6">
                 {!isCollapsed && (
-                    <h2 className="text-lg font-semibold">Menu</h2>
+                    <h2 className="text-lg font-semibold">Portfolio Admin</h2>
                 )}
                 <button
                     onClick={toggleCollapse}
@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen, isCollapsed, toggleCollapse }) {
                     )}
                 </button>
             </div>
-            <ul className="mt-4">
+            <ul className="mt-4 pl-3">
                 <SidebarItem
                     icon={Home}
                     text="Dashboard"

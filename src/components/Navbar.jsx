@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function Navbar({ toggleSidebar }) {
     return (
-        <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <nav className="bg-gray-800 text-white p-4 flex justify-between items-center w-full">
             <div className="flex items-center">
                 <button onClick={toggleSidebar} className="mr-4">
                     <Menu size={24} />
