@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function SidebarItem({ icon: Icon, text, isCollapsed, url }) {
     return (
-        <li className="mb-2">
+        <li className="mb-2 pl-3">
             <Link
                 to={url}
                 className="flex items-center p-2 rounded hover:bg-blue-700 transition-colors"

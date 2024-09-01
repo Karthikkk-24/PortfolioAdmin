@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen, isCollapsed, toggleCollapse }) {
                     )}
                 </button>
             </div>
-            <ul className="mt-4 pl-3">
+            <ul className="mt-4">
                 <SidebarItem
                     icon={Home}
                     text="Dashboard"
