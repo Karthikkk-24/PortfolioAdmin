@@ -34,16 +34,19 @@ export default function Sidebar({ isOpen, isCollapsed, toggleCollapse }) {
                 <SidebarItem
                     icon={Home}
                     text="Dashboard"
+                    url="/"
                     isCollapsed={isCollapsed}
                 />
                 <SidebarItem
                     icon={Users}
-                    text="Users"
+                    text="Blogs"
+                    url="/blogs"
                     isCollapsed={isCollapsed}
                 />
                 <SidebarItem
                     icon={Settings}
-                    text="Settings"
+                    text="Projects"
+                    url="/projects"
                     isCollapsed={isCollapsed}
                 />
             </ul>
