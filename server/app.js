@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import authRouter from './routes/authRoutes.js';
+import blogRouter from './routes/blogRoutes.js';
+import projectRouter from './routes/projectRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +31,8 @@ mongoose.connect(MONGODB_URI, {
 .catch(err => console.log('Error connecting to MongoDB:', err));
 
 app.use('/api/users', authRouter);
+app.use('/api/projects', projectRouter);
+app.use('/api/blogs', blogRouter);
 
 const PORT = 3000;
 
