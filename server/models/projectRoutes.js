@@ -2,24 +2,24 @@ import mongoose from 'mongoose';
 
 const { Schema, model, models } = mongoose;
 
-const UserSchema = new Schema({
-    username: {
+const ProjectSchema = new Schema({
+    title: {
         type: String,
         required: true,
     },
-    uniqueId: {
+    url: {
         type: String,
         required: true
     },
-    email: {
+    description: {
         type: String,
         required: true,
         unique: true
     },
-    password: {
+    image: {
         type: String,
         required: true
     },
 }, { timestamps: true });
 
-export default models.users || model('users', UserSchema);
+export default models.projects || model('projects', ProjectSchema);
