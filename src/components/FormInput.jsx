@@ -6,6 +6,11 @@ export default function FormInput({
     value = '',
     onChange = () => {},
 }) {
+
+    const handleChange = (event) => {
+        onChange(event.target.value);
+    };
+    
     return (
         <div className="flex flex-col w-full gap-2">
             <label htmlFor="" className="font-semibold text-sm">
@@ -14,7 +19,7 @@ export default function FormInput({
             <input
                 type={type}
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
                 placeholder={`Enter your ${title}`}
                 className="p-2 border bg-background text-slate-50 border-gray-300 rounded"
             />
