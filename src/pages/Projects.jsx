@@ -9,6 +9,16 @@ export default function Projects() {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
 
+    const handleImageChange = (file) => {
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSubmit = async () => {
         if (title === '' || url === '' || description === '' || !image) {
             alert('All fields are required');
@@ -16,19 +26,13 @@ export default function Projects() {
         }
 
         try {
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('url', url);
-            formData.append('description', description);
-            formData.append('imageFile', image);
-
             const response = await axios.post(
                 `${BaseURL()}/api/projects/saveProject`,
-                formData,
                 {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
+                    title,
+                    url,
+                    description,
+                    image,
                 }
             );
 
@@ -72,7 +76,7 @@ export default function Projects() {
                     <FormInput
                         title="Project Image"
                         type="file"
-                        onChange={setImage}
+                        onChange={handleImageChange}
                     />
                 </div>
                 <button

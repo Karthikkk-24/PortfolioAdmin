@@ -7,8 +7,15 @@ export default function FormInput({
     onChange = () => {},
 }) {
     const handleChange = (event) => {
+        if (!event || !event.target) {
+            console.error('Invalid event object');
+            return;
+        }
+
         if (type === 'file') {
-            onChange(event.target.files[0]);
+            if (event.target.files && event.target.files.length > 0) {
+                onChange(event.target.files[0]);
+            }
         } else {
             onChange(event.target.value);
         }
@@ -16,17 +23,18 @@ export default function FormInput({
 
     return (
         <div className="flex flex-col w-full gap-2">
-            <label htmlFor="" className="font-semibold text-sm">
+            <label htmlFor={title} className="font-semibold text-sm">
                 {title}
             </label>
             <input
+                id={title}
                 type={type}
-                value={type === 'file' ? undefined : value}
                 onChange={handleChange}
                 placeholder={
                     type === 'file' ? undefined : `Enter your ${title}`
                 }
                 className="p-2 border bg-background text-slate-50 border-gray-300 rounded"
+                {...(type !== 'file' ? { value } : {})}
             />
         </div>
     );
