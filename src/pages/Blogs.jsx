@@ -1,13 +1,91 @@
+import axios from 'axios';
+import { useState } from 'react';
+import BaseURL from '../components/BaseURL';
+import FormInput from '../components/FormInput';
+
 export default function Blogs() {
+    const [title, setTitle] = useState('');
+    const [url, setUrl] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (file) => {
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSubmit = async () => {
+        if (title === '' || url === '' || description === '' || !image) {
+            alert('All fields are required');
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `${BaseURL()}/api/blogs/saveBlog`,
+                {
+                    title,
+                    url,
+                    description,
+                    image,
+                }
+            );
+
+            if (response.status === 201) {
+                alert('Blog saved successfully');
+                setTitle('');
+                setUrl('');
+                setDescription('');
+                setImage(null);
+            } else {
+                alert('Something went wrong');
+            }
+        } catch (error) {
+            console.log(error);
+            alert('Error saving blog');
+        }
+    };
+
     return (
         <div className="bg-gray-900 h-full w-full text-white p-6">
-            <h2 className="text-2xl font-bold mb-4">
-                Welcome to the Blogs
-            </h2>
-            <p>
-                This is where your main content will go. Add your components,
-                graphs, and charts here.
-            </p>
+            <div className="flex flex-col w-full h-auto gap-3">
+                <div className="grid w-full grid-cols-2 gap-5">
+                    <FormInput
+                        title="Blog Name"
+                        type="text"
+                        value={title}
+                        onChange={setTitle}
+                    />
+                    <FormInput
+                        title="Blog URL"
+                        type="text"
+                        value={url}
+                        onChange={setUrl}
+                    />
+                    <FormInput
+                        title="Blog Description"
+                        type="text"
+                        value={description}
+                        onChange={setDescription}
+                    />
+                    <FormInput
+                        title="Blog Image"
+                        type="file"
+                        onChange={handleImageChange}
+                    />
+                </div>
+                <button
+                    onClick={handleSubmit}
+                    className="w-full bg-gray-600 text-white p-2 rounded-2xl hover:bg-gray-700"
+                >
+                    Save
+                </button>
+            </div>
         </div>
     );
 }
